@@ -2,6 +2,7 @@ import os
 import requests
 import time
 from xml.etree import ElementTree
+from playsound import playsound
 
 try:
     input = raw_input
@@ -30,7 +31,7 @@ class TextToSpeech(object):
         headers = {
             'Authorization': 'Bearer ' + self.access_token,
             'Content-Type': 'application/ssml+xml',
-            'X-Microsoft-OutputFormat': 'audio-16khz-64kbitrate-mono-mp3',
+            'X-Microsoft-OutputFormat': 'riff-16khz-16bit-mono-pcm',
             'User-Agent': 'TextToSpeechHTN'
         }
         xml_body = ElementTree.Element('speak', version='1.0')
@@ -44,6 +45,7 @@ class TextToSpeech(object):
 
         response = requests.post(constructed_url, headers=headers, data=body)
         if response.status_code == 200:
+            self.fileName = 'sample-' + self.timestr + '.wav'
             with open('sample-' + self.timestr + '.wav', 'wb') as audio:
                 audio.write(response.content)
                 print("\nStatus code: " + str(response.status_code) +
@@ -51,9 +53,13 @@ class TextToSpeech(object):
         else:
             print("\nStatus code: " + str(response.status_code) +
                 "\nSomething went wrong. Check your subscription key and headers.\n")
+    
+    def play_audio(self):
+        playsound(self.fileName)
 
 if __name__ == "__main__":
     subscription_key = "9c32d6d1645c41bea78ae1bad878c70b"
     app = TextToSpeech(subscription_key)
     app.get_token()
     app.save_audio()
+    app.play_audio()
