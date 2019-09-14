@@ -17,11 +17,16 @@ headers = {
     'Content-Type': "application/octet-stream"
     }
 
-data = open('/Users/hadeelelmadhoon/Documents/STOP_sign.jpg', 'rb').read()
-responseAnalyze = requests.request("POST", urlAnalyze, headers=headers, data=data, params=querystring)
+class ImageClassifier:
+  def findTags():
+    data = open('/Users/Nadeen Elshawish/source/hackTheNorth/STOP_sign.jpg', 'rb').read()
+    responseAnalyze = requests.request("POST", urlAnalyze, headers=headers, data=data, params=querystring)
 
-result = json.loads(responseAnalyze.text)
+    result = json.loads(responseAnalyze.text)
+    resultString=""
 
-for i in range(len(result['tags'])):
-    if result['tags'][i]['name'] in objects:
-        print(result['tags'][i]['name'] + " watch out")
+    for i in range(len(result['tags'])):
+        if result['tags'][i]['name'] in objects:
+          resultString += result['tags'][i]['name'] + " watch out ..."
+    print(resultString)
+    return resultString

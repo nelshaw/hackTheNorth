@@ -3,16 +3,18 @@ import requests
 import time
 from xml.etree import ElementTree
 from playsound import playsound
+from imageClassifier import ImageClassifier
 
 try:
-    input = raw_input
+    input = raw_input6
 except NameError:
     pass
 
 class TextToSpeech(object):
     def __init__(self, subscription_key):
         self.subscription_key = subscription_key
-        self.tts = input("What would you like to convert to speech: ")
+        # self.tts = input("What would you like to convert to speech: ")
+        self.tts = ImageClassifier.findTags()
         self.timestr = time.strftime("%Y%m%d-%H%M")
         self.access_token = None
 
@@ -24,7 +26,7 @@ class TextToSpeech(object):
         response = requests.post(fetch_token_url, headers=headers)
         self.access_token = str(response.text)
 
-    def save_audio(self):
+    def save_audio(self, language, country, speaker):
         base_url = 'https://canadacentral.tts.speech.microsoft.com/'
         path = 'cognitiveservices/v1'
         constructed_url = base_url + path
@@ -35,11 +37,12 @@ class TextToSpeech(object):
             'User-Agent': 'TextToSpeechHTN'
         }
         xml_body = ElementTree.Element('speak', version='1.0')
-        xml_body.set('{http://www.w3.org/XML/1998/namespace}lang', 'en-us')
+        xml_body.set('{http://www.w3.org/XML/1998/namespace}lang', language + '-' + country)
         voice = ElementTree.SubElement(xml_body, 'voice')
-        voice.set('{http://www.w3.org/XML/1998/namespace}lang', 'en-US')
+        voice.set('{http://www.w3.org/XML/1998/namespace}lang', language + '-' + country)
+        languageString = language + '-' + country +', ' + speaker
         voice.set(
-            'name', 'Microsoft Server Speech Text to Speech Voice (en-US, Guy24KRUS)')
+            'name', 'Microsoft Server Speech Text to Speech Voice (' + languageString + ')')
         voice.text = self.tts
         body = ElementTree.tostring(xml_body)
 
@@ -68,6 +71,6 @@ if __name__ == "__main__":
     subscription_key = "9c32d6d1645c41bea78ae1bad878c70b"
     app = TextToSpeech(subscription_key)
     app.get_token()
-    app.save_audio()
+    app.save_audio(language='en', country='GB', speaker='HazelRUS')
     app.play_audio()
     app.cleanup()

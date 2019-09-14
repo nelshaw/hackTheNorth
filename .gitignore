@@ -3,3 +3,7 @@
 
 # Don't track these files
 *.wav
+.env
+*.jpeg
+*.jpg
+*.png
