@@ -56,6 +56,13 @@ class TextToSpeech(object):
     
     def play_audio(self):
         playsound(self.fileName)
+    
+    def cleanup(self):
+        for fname in os.listdir('.'):
+        # Delete audio files except most recent one
+            if fname.endswith('.wav') and fname != self.fileName:
+                print("Cleaning up directory ...")
+                os.remove(fname)
 
 if __name__ == "__main__":
     subscription_key = "9c32d6d1645c41bea78ae1bad878c70b"
@@ -63,3 +70,4 @@ if __name__ == "__main__":
     app.get_token()
     app.save_audio()
     app.play_audio()
+    app.cleanup()
