@@ -13,12 +13,8 @@ class TranslateText:
         requestHeader = {'Ocp-Apim-Subscription-Key': subscriptionKey}
         responseResult = requests.post(cognitiveServiceUrl, headers=requestHeader)
         token = responseResult.text
-        # Original Text
-        #text = "tree up ahead, watch out"
-        print(text)
-        # Specify source and target language
+        # Specify source language
         srcLanguage = "en"
-        #targetLanguage = "fr"
         # Define Parameters
         params = {'appid': 'Bearer '+token, 'text': text, 'from': srcLanguage, 'to': targetlanguage}
         requestHeader = {'Accept': 'application/xml'}
@@ -27,5 +23,4 @@ class TranslateText:
 
         result = re.search('<string xmlns="http://schemas.microsoft.com/2003/10/Serialization/">(.*)</string>', responseResult.text)
         translatedText = result.group(1)
-        print(translatedText)
         return translatedText

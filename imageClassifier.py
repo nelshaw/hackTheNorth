@@ -19,7 +19,7 @@ headers = {
     }
 
 class ImageClassifier:
-  def findTags():
+  def findTags(targetlanguage):
     data = open('C:/Users/Nadeen Elshawish/source/hackTheNorth/data/frame655.jpg', 'rb').read()
     responseAnalyze = requests.request("POST", urlAnalyze, headers=headers, data=data, params=querystring)
 
@@ -29,4 +29,6 @@ class ImageClassifier:
         if result['tags'][i]['name'] in objects:
           resultString += result['tags'][i]['name'] + " up ahead, watch out ..."
     print(resultString)
-    return resultString
+    str = TranslateText.translate(targetlanguage=targetlanguage, text=resultString)
+    print(str)
+    return str
