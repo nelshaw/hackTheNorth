@@ -13,7 +13,6 @@ except NameError:
 class TextToSpeech(object):
     def __init__(self, subscription_key):
         self.subscription_key = subscription_key
-        # self.tts = input("What would you like to convert to speech: ")
         self.tts = ImageClassifier.findTags()
         self.timestr = time.strftime("%Y%m%d-%H%M")
         self.access_token = None
@@ -68,9 +67,10 @@ class TextToSpeech(object):
                 os.remove(fname)
 
 if __name__ == "__main__":
-    subscription_key = "9c32d6d1645c41bea78ae1bad878c70b"
-    app = TextToSpeech(subscription_key)
-    app.get_token()
-    app.save_audio(language='en', country='GB', speaker='HazelRUS')
-    app.play_audio()
-    app.cleanup()
+    if len(ImageClassifier.findTags()) > 0:
+        subscription_key = "9c32d6d1645c41bea78ae1bad878c70b"
+        app = TextToSpeech(subscription_key)
+        app.get_token()
+        app.save_audio(language='en', country='US', speaker='Jessa24kRUS')
+        app.play_audio()
+        app.cleanup()
