@@ -1,5 +1,6 @@
 import requests
 import json
+from translateText import TranslateText
 
 objects =	{
   "tree": "tree",
