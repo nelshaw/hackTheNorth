@@ -11,8 +11,6 @@ try:
 except NameError:
     pass
 
-
-
 if sys.argv[1] == 'fr':
     language='fr'
     country='FR'
@@ -37,11 +35,17 @@ elif sys.argv[1] == 'ar':
     language='ar'
     country='EG'
     speaker='Hoda'
+    
+
+
+
 
 class TextToSpeech(object):
+    global tags
     def __init__(self, subscription_key):
+        
         self.subscription_key = subscription_key
-        self.tts = ImageClassifier.findTags(language)
+        self.tts = tags
         self.timestr = time.strftime("%Y%m%d-%H%M")
         self.access_token = None
 
@@ -95,7 +99,8 @@ class TextToSpeech(object):
                 os.remove(fname)
 
 if __name__ == "__main__":
-    if len(ImageClassifier.findTags(targetlanguage=language)) > 0:
+    tags = ImageClassifier.findTags(language)
+    if len(tags) > 0:
         subscription_key = "9c32d6d1645c41bea78ae1bad878c70b"
         app = TextToSpeech(subscription_key)
         app.get_token()

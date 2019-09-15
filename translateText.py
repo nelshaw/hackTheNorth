@@ -22,5 +22,7 @@ class TranslateText:
         responseResult = requests.get(translateUrl, params=params, headers=requestHeader)
 
         result = re.search('<string xmlns="http://schemas.microsoft.com/2003/10/Serialization/">(.*)</string>', responseResult.text)
-        translatedText = result.group(1)
-        return translatedText
+        if result:
+            translatedText = result.group(1)
+            return translatedText
+        return ""
