@@ -35,15 +35,9 @@ elif sys.argv[1] == 'ar':
     language='ar'
     country='EG'
     speaker='Hoda'
-    
-
-
-
-
 class TextToSpeech(object):
     global tags
     def __init__(self, subscription_key):
-        
         self.subscription_key = subscription_key
         self.tts = tags
         self.timestr = time.strftime("%Y%m%d-%H%M")

@@ -24,7 +24,6 @@ class ImageClassifier:
     urllib.request.urlretrieve('http://raspberrypi.local:5000/data/image.jpg', 'data/image.jpg')
     
     data = open('data/image.jpg', 'rb').read()
-    # data = open('C:/Users/Nadeen Elshawish/source/hackTheNorth/data/frame655.jpg', 'rb').read()
     responseAnalyze = requests.request("POST", urlAnalyze, headers=headers, data=data, params=querystring)
 
     result = json.loads(responseAnalyze.text)
